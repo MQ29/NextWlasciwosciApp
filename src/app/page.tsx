@@ -2,14 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   const router = useRouter();
 
   return (
     <div className="w-full h-full">
       {/* Hero Section */}
       <section className="h-screen flex flex-col items-center justify-center bg-indigo-600 text-white text-center px-6">
-        <div className="text-6xl mb-4">💊</div> {/* Dodana emotka tabletki */}
+        <div className="text-6xl mb-4">💊</div>
         <h1 className="text-5xl font-bold mb-6">Poznaj Suplementy Diety!</h1>
         <p className="text-lg max-w-2xl mb-8">
           Odkryj świat suplementów i ich właściwości. Wyszukuj, oceniaj i odkrywaj naukowe informacje, aby podejmować świadome decyzje.
