@@ -246,7 +246,6 @@ const SupplementsPage = () => {
                         ))}
                     </div>
                     {/* Formularz dodawania suplementów */}
-                    {/* Formularz dodawania suplementów */}
                     <div className="w-1/3 bg-white shadow-md rounded-lg p-4 border border-gray-200 max-h-[400px] overflow-y-auto">
                         <h2 className="text-2xl font-bold mb-4">Dodaj suplement</h2>
                         <form
