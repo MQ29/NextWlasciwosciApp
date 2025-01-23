@@ -1,16 +1,18 @@
 'use client';
+
 import { useEffect, useState } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function EditSupplementPage() {
   const [name, setName] = useState("");
   const [property, setProperty] = useState("");
   const [link, setLink] = useState("");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+
+  // Pobieranie parametru ID z query string
+  const id = new URLSearchParams(window.location.search).get("id");
 
   useEffect(() => {
     const fetchSupplement = async () => {
