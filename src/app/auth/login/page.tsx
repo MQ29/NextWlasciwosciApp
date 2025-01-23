@@ -34,7 +34,7 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/supplements");
-    } catch (err) {
+    } catch {
       setError("Nieprawidłowe dane logowania. Spróbuj ponownie.");
     } finally {
       setLoading(false);

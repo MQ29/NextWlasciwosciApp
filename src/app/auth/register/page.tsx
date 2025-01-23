@@ -40,8 +40,8 @@ export default function RegisterPage() {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      router.push("/supplements"); // Przekierowanie na stronę katalogu
-    } catch (err) {
+      router.push("/supplements"); 
+    } catch {
       setError("Wystąpił błąd podczas rejestracji. Spróbuj ponownie.");
     } finally {
       setLoading(false);
@@ -49,7 +49,7 @@ export default function RegisterPage() {
   };
 
   if (isLoggedIn) {
-    return null; // Zapobiegamy renderowaniu formularza
+    return null; 
   }
 
   return (

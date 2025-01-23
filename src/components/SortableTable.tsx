@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { collection, onSnapshot, DocumentData } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/firebase';
 
 type SortOrder = 'asc' | 'desc' | 'default';
@@ -13,8 +13,12 @@ type TableProps = {
 
 type Supplement = {
   id: string;
-  [key: string]: any; // Allow dynamic properties based on headers
+  name?: string;
+  property?: string;
+  link?: string;
+  ratings?: { rating: number; userId: string }[];
   averageRating?: number;
+  [key: string]: string | number | undefined | { rating: number; userId: string }[];
 };
 
 export default function SortableTable({ headers, footer }: TableProps) {
@@ -26,11 +30,12 @@ export default function SortableTable({ headers, footer }: TableProps) {
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'supplements'), (snapshot) => {
       const supplements = snapshot.docs.map((doc) => {
-        const data = doc.data() as DocumentData;
+        const data = doc.data() as Omit<Supplement, 'id'>;
+        const ratingsArray = Array.isArray(data.ratings) ? data.ratings : [];
         const averageRating =
-          data.ratings && data.ratings.length > 0
-            ? data.ratings.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0) /
-              data.ratings.length
+          ratingsArray.length > 0
+            ? ratingsArray.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0) /
+              ratingsArray.length
             : 0;
 
         return { id: doc.id, ...data, averageRating };
@@ -49,7 +54,7 @@ export default function SortableTable({ headers, footer }: TableProps) {
         if (columnKey === 'averageRating') {
           return (a[columnKey] ?? 0) - (b[columnKey] ?? 0);
         }
-        return a[columnKey] > b[columnKey] ? 1 : a[columnKey] < b[columnKey] ? -1 : 0;
+        return (a[columnKey] ?? '').toString().localeCompare((b[columnKey] ?? '').toString());
       });
       setSortOrder('asc');
     } else if (sortOrder === 'asc') {
@@ -109,7 +114,7 @@ export default function SortableTable({ headers, footer }: TableProps) {
                     <td key={colIndex} className="p-3">
                       {header === 'link' ? (
                         <a
-                          href={row[header]}
+                          href={row[header] as string}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-500 underline hover:text-blue-700"
@@ -117,9 +122,9 @@ export default function SortableTable({ headers, footer }: TableProps) {
                           {row[header]}
                         </a>
                       ) : header === 'averageRating' ? (
-                        row.averageRating?.toFixed(2)
+                        (row.averageRating ?? 0).toFixed(2)
                       ) : (
-                        row[header]
+                        row[header]?.toString()
                       )}
                     </td>
                   ))}
