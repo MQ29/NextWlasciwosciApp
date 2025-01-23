@@ -6,12 +6,12 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState<string>(""); // Dodano typy dla `useState`
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function RegisterPage() {
     return () => unsubscribe();
   }, [router]);
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
@@ -41,7 +41,7 @@ export default function RegisterPage() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       router.push("/supplements"); // Przekierowanie na stronę katalogu
-    } catch (error: any) {
+    } catch (err) {
       setError("Wystąpił błąd podczas rejestracji. Spróbuj ponownie.");
     } finally {
       setLoading(false);

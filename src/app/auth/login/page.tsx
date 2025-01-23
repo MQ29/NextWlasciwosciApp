@@ -6,11 +6,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function LoginPage() {
       const user = auth.currentUser;
       if (user) {
         setIsLoggedIn(true);
-        router.replace("/supplements"); // Przekierowanie, jeśli użytkownik jest zalogowany
+        router.replace("/supplements");
       }
     };
     checkUser();
@@ -26,15 +26,15 @@ export default function LoginPage() {
     return () => unsubscribe();
   }, [router]);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("/supplements"); // Przekierowanie na stronę katalogu
-    } catch (error: any) {
+      router.push("/supplements");
+    } catch (err) {
       setError("Nieprawidłowe dane logowania. Spróbuj ponownie.");
     } finally {
       setLoading(false);
@@ -42,7 +42,7 @@ export default function LoginPage() {
   };
 
   if (isLoggedIn) {
-    return null; // Zapobiegamy renderowaniu formularza
+    return null;
   }
 
   return (

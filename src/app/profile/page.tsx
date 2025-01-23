@@ -4,6 +4,7 @@ import { collection, doc, getDoc, getDocs, query, where, deleteDoc } from "fireb
 import { db } from "@/firebase";
 import { useEffect, useState } from "react";
 import { auth } from "@/firebase";
+import { User } from "firebase/auth"; // Importowanie typu User
 
 type Supplement = {
   id: string; 
@@ -15,7 +16,7 @@ type Supplement = {
 
 export default function ProfilePage() {
   const [userSupplements, setUserSupplements] = useState<Supplement[]>([]);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null); // Zmieniony typ użytkownika
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -26,41 +27,40 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const fetchSupplements = async () => {
-        if (!user) return;
-      
-        try {
-          const userSupplementsQuery = query(
-            collection(db, "userSupplements"),
-            where("userId", "==", user.uid)
-          );
-          const userSupplementsSnapshot = await getDocs(userSupplementsQuery);
-      
-          const supplementsData: Supplement[] = (
-            await Promise.all(
-              userSupplementsSnapshot.docs.map(async (userSupplementDoc) => {
-                const supplementId = userSupplementDoc.data()?.supplementId;
-                if (!supplementId) return undefined;
-      
-                const supplementDocRef = doc(db, "supplements", supplementId);
-                const supplementDoc = await getDoc(supplementDocRef);
-      
-                if (!supplementDoc.exists()) return undefined;
-      
-                return {
-                  id: userSupplementDoc.id,
-                  supplementId: supplementDoc.id,
-                  ...supplementDoc.data(),
-                } as Supplement;
-              })
-            )
-          ).filter((item): item is Supplement => !!item);
-      
-          setUserSupplements(supplementsData);
-        } catch (error) {
-          console.error("Błąd podczas pobierania suplementów użytkownika:", error);
-        }
-      };
-      
+      if (!user) return;
+
+      try {
+        const userSupplementsQuery = query(
+          collection(db, "userSupplements"),
+          where("userId", "==", user.uid)
+        );
+        const userSupplementsSnapshot = await getDocs(userSupplementsQuery);
+
+        const supplementsData: Supplement[] = (
+          await Promise.all(
+            userSupplementsSnapshot.docs.map(async (userSupplementDoc) => {
+              const supplementId = userSupplementDoc.data()?.supplementId;
+              if (!supplementId) return undefined;
+
+              const supplementDocRef = doc(db, "supplements", supplementId);
+              const supplementDoc = await getDoc(supplementDocRef);
+
+              if (!supplementDoc.exists()) return undefined;
+
+              return {
+                id: userSupplementDoc.id,
+                supplementId: supplementDoc.id,
+                ...supplementDoc.data(),
+              } as Supplement;
+            })
+          )
+        ).filter((item): item is Supplement => !!item);
+
+        setUserSupplements(supplementsData);
+      } catch (err) {
+        console.error("Błąd podczas pobierania suplementów użytkownika:", err);
+      }
+    };
 
     fetchSupplements();
   }, [user]);
@@ -71,8 +71,8 @@ export default function ProfilePage() {
       setUserSupplements((prev) =>
         prev.filter((supplement) => supplement.id !== userSupplementId)
       );
-    } catch (error) {
-      console.error("Błąd podczas usuwania suplementu z profilu:", error);
+    } catch (err) {
+      console.error("Błąd podczas usuwania suplementu z profilu:", err);
     }
   };
 
