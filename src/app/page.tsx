@@ -1,101 +1,81 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useRouter } from 'next/navigation';
+
+const HomePage = () => {
+  const router = useRouter();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="w-full h-full">
+      {/* Hero Section */}
+      <section className="h-screen flex flex-col items-center justify-center bg-indigo-600 text-white text-center px-6">
+        <div className="text-6xl mb-4">💊</div> {/* Dodana emotka tabletki */}
+        <h1 className="text-5xl font-bold mb-6">Poznaj Suplementy Diety!</h1>
+        <p className="text-lg max-w-2xl mb-8">
+          Odkryj świat suplementów i ich właściwości. Wyszukuj, oceniaj i odkrywaj naukowe informacje, aby podejmować świadome decyzje.
+        </p>
+        <button
+          onClick={() => router.push('/supplements')}
+          className="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-lg shadow-lg hover:bg-indigo-100 transition-all"
+        >
+          Eksploruj Suplementy
+        </button>
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* About Section */}
+      <section className="h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 text-center px-6">
+        <h2 className="text-4xl font-bold mb-6">Jak to działa?</h2>
+        <p className="text-lg max-w-2xl mb-8">
+          Nasza platforma umożliwia eksplorację suplementów, poznawanie ich właściwości i dostęp do naukowych badań.
+        </p>
+        <ul className="text-left list-disc list-inside max-w-3xl text-lg">
+          <li>🌟 Eksploruj bazę suplementów</li>
+          <li>📊 Sprawdzaj średnie oceny i opinie innych użytkowników</li>
+          <li>📝 Zapisuj swoje ulubione suplementy w profilu</li>
+          <li>🔗 Otwieraj linki do badań naukowych</li>
+        </ul>
+      </section>
+
+      {/* Features Section */}
+      <section className="h-screen flex flex-col items-center justify-center bg-white text-gray-800 text-center px-6">
+        <h2 className="text-4xl font-bold mb-6">Funkcje</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl">
+          <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4">⭐ Oceny</h3>
+            <p>
+              Oceniaj suplementy na podstawie swoich doświadczeń i sprawdzaj, jak oceniają je inni.
+            </p>
+          </div>
+          <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4">📚 Baza Wiedzy</h3>
+            <p>
+              Zyskaj dostęp do szczegółowych opisów i naukowych linków dotyczących każdego suplementu.
+            </p>
+          </div>
+          <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4">🔗 Profile</h3>
+            <p>
+              Zapisuj swoje ulubione suplementy, by mieć do nich szybki dostęp w każdej chwili.
+            </p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="h-screen flex flex-col items-center justify-center bg-indigo-600 text-white text-center px-6">
+        <h2 className="text-4xl font-bold mb-6">Dołącz do nas już teraz!</h2>
+        <p className="text-lg max-w-2xl mb-8">
+          Dołącz do naszej społeczności i odkryj potencjał suplementów w zdrowiu i dobrym samopoczuciu.
+        </p>
+        <button
+          onClick={() => router.push('/supplements')}
+          className="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-lg shadow-lg hover:bg-indigo-100 transition-all"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          Eksploruj Suplementy
+        </button>
+      </section>
     </div>
   );
-}
+};
+
+export default HomePage;
